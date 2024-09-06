@@ -60,13 +60,24 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         const currentFilePath = activeEditor.document.uri.fsPath;
-        const parentDirectoryPath = path.dirname(currentFilePath);
-        const parentVscodeFolderPath = path.join(parentDirectoryPath, '.vscode');
-        const parentLaunchJsonPath = path.join(parentVscodeFolderPath, 'launch.json');
 
-        if (!fs.existsSync(parentLaunchJsonPath)) {
-            vscode.window.showErrorMessage('No launch.json found in the parent .vscode folder');
-            return;
+        let parentDirectoryPath = path.dirname(currentFilePath);
+        let parentLaunchJsonPath = '';
+
+        while (!fs.existsSync(parentLaunchJsonPath)) {
+            
+            if (parentLaunchJsonPath === launchJsonPath) {
+                vscode.window.showErrorMessage('Using default launch.json');
+                break;
+            }
+
+            if (parentDirectoryPath === "") {
+                vscode.window.showErrorMessage('No launch.json found in any .vscode folder');
+                return;
+            }
+            
+            parentDirectoryPath = path.dirname(parentDirectoryPath);
+            parentLaunchJsonPath = path.join(parentDirectoryPath, '.vscode', 'launch.json');
         }
 
         let parentLaunchConfig: LaunchConfig;

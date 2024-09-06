@@ -1,8 +1,8 @@
 {
   "name": "local-launch",
-  "displayName": "local-launch",
+  "displayName": "Local Launch",
   "description": "Allows you to use localised `.vscode` folders in your code.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "clicketyclackety",
   "repository": {
     "type": "git",
