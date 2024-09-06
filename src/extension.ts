@@ -133,7 +133,7 @@ export function deactivate() {}
 
 // Function to sanitize JSON content by removing comments and trailing commas
 function sanitizeJson(jsonString: string): string {
-    return jsonString
+    return jsonString.toString()
         .replace(/\/\/.*$/gm, '') // Remove single-line comments
         .replace(/\/\*[\s\S]*?\*\//gm, '') // Remove multi-line comments
         .replace(/,\s*}/g, '}') // Remove trailing commas before closing brace
