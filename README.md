@@ -1,71 +1,31 @@
-# local-launch README
+Sure! Here's a README for your VS Code extension:
 
-This is the README for your extension "local-launch". After writing up a brief description, we recommend including the following sections.
+# Local Launch
+
+## Overview
+
+**Local Launch** is a VS Code extension which allows you to use localised `.vscode` folders in your code.
+I work with a large codebase all day and having some smaller .vscode folders embedded in smaller projects is really handy for speeding up debugging and allows me to avoid modifying the `launch.json` files for many other developers who don't need my very specific launch settings.
+
+Currently only `launch.json` is supported. And is only allowed to have one task. I will work to improve this extension as necessary. But I suspect this is all I'll need.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Automatically adds or updates launch configurations in the current workspace.
+- Iherits from the root directory's `.vscode` folder.
+- Reverts the `launch.json` file to its original state after the debugging session.
 
-For example if there is an image subfolder under your extension project workspace:
+## Usage
 
-\!\[feature X\]\(images/feature-x.png\)
+1. Open a folder in Visual Studio Code.
+2. Ensure there is a `.vscode` folder with a `launch.json` file in the parent directory of the currently open file.
+3. Run the command `Debug with Local Launch Configurations` from the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS).
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### Contributing
 
-## Requirements
+Contributions are welcome! Please open an issue or submit a pull request.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Acknowledgments
 
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- Thanks to the VS Code team for their excellent documentation and tools.
+- And thanks to Copilot for writing this.

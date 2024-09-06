@@ -1,9 +1,9 @@
 {
   "name": "local-launch",
   "displayName": "local-launch",
-  "description": "Adds launch configurations for local debugging",
+  "description": "Allows you to use localised `.vscode` folders in your code.",
   "version": "0.0.1",
-  "publisher": "sad.tofu",
+  "publisher": "clicketyclackety",
   "engines": {
     "vscode": "^1.93.0"
   },
@@ -16,7 +16,7 @@
     "commands": [
       {
         "command": "local-launch.addLaunchConfigs",
-        "title": "Debug with Local Launch Config"
+        "title": "Debug with Local Launch Configurations"
       }
     ]
   },
