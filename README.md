@@ -1,5 +1,3 @@
-Sure! Here's a README for your VS Code extension:
-
 # Local Launch
 
 ## Overview
