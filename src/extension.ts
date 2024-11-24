@@ -2,6 +2,18 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
+interface LaunchConfig {
+    version: string;
+    configurations: Array<{
+        name: string;
+        type: string;
+        request: string;
+        program: string;
+        cwd: string;
+        console: string;
+    }>;
+}
+
 export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "local-launch" is now active!');
 
@@ -12,7 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        const workspacePath = workspaceFolders[0].uri.fsPath;
+        const workspaceFolder = workspaceFolders[0];
+        const workspacePath = workspaceFolder.uri.fsPath;
         const vscodeFolderPath = path.join(workspacePath, '.vscode');
         const launchJsonPath = path.join(vscodeFolderPath, 'launch.json');
 
@@ -25,18 +38,6 @@ export function activate(context: vscode.ExtensionContext) {
             originalLaunchConfig = fs.readFileSync(launchJsonPath, 'utf8');
         }
 
-        interface LaunchConfig {
-            version: string;
-            configurations: Array<{
-                name: string;
-                type: string;
-                request: string;
-                program: string;
-                cwd: string;
-                console: string;
-            }>;
-        }
-
         let launchConfig: LaunchConfig = {
             version: '0.2.0',
             configurations: []
@@ -47,7 +48,8 @@ export function activate(context: vscode.ExtensionContext) {
                 const json = sanitizeJson(originalLaunchConfig);
                 launchConfig = JSON.parse(json);
             } catch (error) {
-                vscode.window.showErrorMessage('Failed to parse launch.json');
+                vscode.window.showWarningMessage('Failed to parse launch.json, using fallback');
+                await DebugFallback(workspaceFolder, launchConfig);
                 return;
             }
         }
@@ -85,7 +87,8 @@ export function activate(context: vscode.ExtensionContext) {
             const parentLaunchJsonContent = fs.readFileSync(parentLaunchJsonPath, 'utf8');
             parentLaunchConfig = JSON.parse(sanitizeJson(parentLaunchJsonContent));
         } catch (error) {
-            vscode.window.showErrorMessage('Failed to parse parent launch.json');
+            vscode.window.showWarningMessage('Failed to parse launch.json, using fallback');
+            await DebugFallback(workspaceFolder, launchConfig);
             return;
         }
 
@@ -112,9 +115,10 @@ export function activate(context: vscode.ExtensionContext) {
         // Start the debugging session with the new configuration
         const debugConfig = launchConfig.configurations.find(config => config.name === configNameToUpdate);
         if (debugConfig) {
-            await vscode.debug.startDebugging(workspaceFolders[0], debugConfig);
+            await vscode.debug.startDebugging(workspaceFolder, debugConfig);
         } else {
             vscode.window.showErrorMessage('Failed to find the new debug configuration');
+            await DebugFallback(workspaceFolder, launchConfig);
         }
 
         // Revert the launch.json to its original state
@@ -127,6 +131,11 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     context.subscriptions.push(disposable);
+}
+
+async function DebugFallback(workspaceFolder: vscode.WorkspaceFolder, launchConfig: LaunchConfig) {
+    const defaultDebugConfig = launchConfig.configurations[0];
+    await vscode.debug.startDebugging(workspaceFolder, defaultDebugConfig!);
 }
 
 export function deactivate() {}
