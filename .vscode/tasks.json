@@ -15,6 +15,15 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"label": "vsce: package",
+			"type": "shell",
+			"command": "vsce package && vsce publish",
+			"group": "none",
+			"presentation": {
+				"reveal": "always"
+			}
 		}
 	]
 }
