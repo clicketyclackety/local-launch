@@ -57,7 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
         // Determine the parent directory of the currently open file
         const activeEditor = vscode.window.activeTextEditor;
         if (!activeEditor) {
-            vscode.window.showErrorMessage('No active editor found');
+            await DebugFallback(workspaceFolder, launchConfig);
             return;
         }
 
